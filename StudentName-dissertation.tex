@@ -13,14 +13,18 @@
 \usepackage{xcolor}
 \usepackage{lipsum}    % filler text
 \usepackage{longtable}
+\usepackage{cleveref}
 %\usepackage{subfig}    % composite figures
-\usepackage{natbib}    % ability to use citet,citep
+%\usepackage{natbib}    % ability to use citet,citep
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{StudentName-thesis.bib}
+\DeclareUnicodeCharacter{0301}{*************************************}
 %\usepackage{fancyhdr}  % creates headers
 %\pagestyle{fancy}
 
 
-%Citations should be of the form ``author year''  not ``author, year''
-\bibpunct{(}{)}{;}{a}{}{,} % changes apalike bst into AMS format
+% Citations should be of the form ``author year''  not ``author, year''
+% \bibpunct{(}{)}{;}{a}{}{,} % changes apalike bst into AMS format
  
 %%----------------------------------------------------------------------------%%
 %%---------------------------- Formatting Options ----------------------------%%
@@ -139,15 +143,12 @@
 \include{Chapter-1/Chapter-1}
 \include{Chapter-2/Chapter-2}
 \include{Chapter-3/Chapter-3}
-\include{Chapter-4/Chapter-4}
-\include{Chapter-5/Chapter-5}
-\include{Chapter-6/Chapter-6}
 
 %%---------------------------------------------------------------------------%%
 %%  Bibliography 
 %% or use BibTeX
-\bibliography{StudentName-thesis}
-\bibliographystyle{apalike}
+%% \bibliography{StudentName-thesis}
+%% \bibliographystyle{apalike}
 
 %%---------------------------------------------------------------------------%%
 % Appendices
@@ -157,8 +158,8 @@
 %\newgeometry{margin=1in,lmargin=1.25in,footskip=\chapterfootskip, includehead, includefoot}
 
 % Can remove or add
-\include{Appendix-A/Appendix-A}
-\include{Appendix-B/Appendix-B}
+% \include{Appendix-A/Appendix-A}
+% \include{Appendix-B/Appendix-B}
 
 \restoregeometry
 
