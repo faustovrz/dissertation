@@ -13,6 +13,7 @@
 %%  the links are not visually distinct from normal text (i.e. no change
 %%  in color or extra boxes).
 \usepackage[
+  pdfborder=0 0 0,
   pdfauthor={Change author in optional.tex},
   pdftitle={Change title in optional.tex},
   pdfcreator={pdftex},
@@ -24,7 +25,10 @@
   filecolor=black,
   urlcolor=black,
 ]{hyperref}
+\usepackage{cleveref}
 
+%% show unicode split characters
+%% \DeclareUnicodeCharacter{0301}{*************************************}
 
 %% -------------------------------------------------------------------------- %%
 %% Microtype - If you use pdfTeX to compile your thesis, you can use

@@ -158,13 +158,6 @@
     \renewcommand{\ncsu@year}{#1}
 }
 
-%%% AAdd commonly used words
-\newcommand{\mex}{\textit{mexicana}\xspace}
-\newcommand{\hpc}{\textit{HPC1}\xspace}
-\newcommand{\parv}{\textit{parviglumis}\xspace}
-%%% code inline frormatiing 
-\newcommand{\code}{\texttt}
-
 %% -------------------------------------------------------------------------- %%
 %% Thesis Title
 \newcommand{\ncsu@thesistitle}{My Thesis Title}

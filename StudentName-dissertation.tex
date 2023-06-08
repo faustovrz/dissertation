@@ -13,14 +13,19 @@
 \usepackage{xcolor}
 \usepackage{lipsum}    % filler text
 \usepackage{longtable}
-\usepackage{cleveref}
 %\usepackage{subfig}    % composite figures
 %\usepackage{natbib}    % ability to use citet,citep
-\usepackage[backend=biber, style=apa]{biblatex}
+\usepackage[backend=biber, natbib=true, style=apa]{biblatex}
 \addbibresource{StudentName-thesis.bib}
-\DeclareUnicodeCharacter{0301}{*************************************}
 %\usepackage{fancyhdr}  % creates headers
 %\pagestyle{fancy}
+
+
+%%---------------------------------------------------------------------------%%
+%%  Bibliography 
+%% or use BibTeX
+%\bibliography{StudentName-thesis}
+%% \bibliographystyle{apalike}
 
 
 % Citations should be of the form ``author year''  not ``author, year''
@@ -129,6 +134,14 @@
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
 \newcommand{\tref}[1]{Table~\ref{#1}}
 
+%% Add commonly used words
+\newcommand{\mex}{\textit{mexicana}\xspace}
+\newcommand{\hpc}{\textit{HPC1}\xspace}
+\newcommand{\parv}{\textit{parviglumis}\xspace}
+
+%% code inline frormatiing 
+\newcommand{\code}{\texttt}
+
 %%---------------------------------------------------------------------------%%
 \begin{document}
 %%---------------------------------------------------------------------------%%
@@ -143,13 +156,6 @@
 \include{Chapter-1/Chapter-1}
 \include{Chapter-2/Chapter-2}
 \include{Chapter-3/Chapter-3}
-
-%%---------------------------------------------------------------------------%%
-%%  Bibliography 
-%% or use BibTeX
-%% \bibliography{StudentName-thesis}
-%% \bibliographystyle{apalike}
-
 %%---------------------------------------------------------------------------%%
 % Appendices
 %\ensureoddstart
