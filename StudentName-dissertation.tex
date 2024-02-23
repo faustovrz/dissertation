@@ -114,7 +114,7 @@
 %%  Note: To break the title onto multiple lines, use \break instead of \\.
 %\thesistitle{A North Carolina State University Sample \LaTeX{} Thesis \break 
 %with a Title So Long it Needs a Line Break}
-\thesistitle{Genomic Insights on Maize Local Adaptation to Low Phosphorus Availability}
+\thesistitle{Genomic Insights Into the Role of Phospholipid Metabolism and Soil Phosphorus Availability in Maize Adaptation to Highlands}
 
 %% Degree year. Necessary if your degree year doesn't equal the current year.
 %\degreeyear{1995}
@@ -144,6 +144,7 @@
 
 %%---------------------------------------------------------------------------%%
 \begin{document}
+
 %%---------------------------------------------------------------------------%%
 \frontmatter
 
@@ -153,21 +154,26 @@
 \mainmatter
 
 % Chapters can remove or add
+% \include{Chapter-0/Chapter-0}
 \include{Chapter-1/Chapter-1}
 \include{Chapter-2/Chapter-2}
 \include{Chapter-3/Chapter-3}
+\include{Chapter-4/Chapter-4}
+
+
 %%---------------------------------------------------------------------------%%
 % Appendices
 %\ensureoddstart
-\restoregeometry
-\appendix
+% uncoment lines with %% for final version
+%% \restoregeometry
+%% \appendix
 %\newgeometry{margin=1in,lmargin=1.25in,footskip=\chapterfootskip, includehead, includefoot}
 
 % Can remove or add
 % \include{Appendix-A/Appendix-A}
 % \include{Appendix-B/Appendix-B}
 
-\restoregeometry
+%% \restoregeometry
 
 %%---------------------------------------------------------------------------%%
 

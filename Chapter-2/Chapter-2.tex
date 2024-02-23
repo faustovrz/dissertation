@@ -1,6 +1,6 @@
 \chapter{Gene Discovery through Plant Genome Environment Associations:
-The Case for Enhanced Machine Learning Models of Global Soil Phosphorus Availability}
-\label{chap-two}
+The Case for Enhanced Machine Learning Models of Soil Phosphorus Availability}
+\label{chap-three}
 
 \newrefsection
 
@@ -8,40 +8,129 @@ The Case for Enhanced Machine Learning Models of Global Soil Phosphorus Availabi
 
 \section{Background}
 
+%% \caption[Evidence of highland selection in genes determining PC/LPC ratios]{\textbf{\textit{Evidence of highland selection in genes determining PC/LPC ratios.}}
+%%  \textbf{(A)}
+ 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/WRB_Pret.png}
+\caption[Phosphorus Retention Potential For Maize Traditional Varieties in Latin America and the Caribbean]{\textbf{\textit{Phosphorus Retention Potential For Maize Traditional Varieties in Latin America and the Caribbean.}}
+Based on \citep{batjes2011}.  Each soil unit corresponds to a mineral descriptor, e.g. Acrisol soil units can be gleyic, humic, orthic, or plinthic. Ferric acrisols have very low phosphorus solubility potential (first column), the other three acrisol units have low solubility (second column). The soil groups with predominantly High and Very High solubility are Ferralsols, Andosols, Acrisols, and Nitosols.}
+\label{fig::WRB_Pret}
+\end{figure}
+\clearpage
+
 \section{Methods}
-\subsection*{Building and Validating a Model of Global Plant Available Phosphorus Distribution }
+\subsection*{Building and Validating a Model for Plant Available Phosphorus Distribution in Mexico}
 
-To find associations between soil phosphorus environment and the genetic diversity of crops, we first compiled public datasets on global phosphorus distribution and improved upon them using random forest models.
-We aimed to  build a global model for two plant available phosphorus parameters. Soil phosphorus content as extracted with the Olsen method \citep{olsen1954}; And soil phosphorus as extracted with the Bray method I \citep{bray1945}.
-We intended at first to use the Olsen predictions by \citep{mcdowell2023}, but the correlation for LAC and African soil profile samples was close to 0 (Supplementary Figure 1). So we decided to refine the predictions by partitioning the global model in two, one model for each, the Nothern hemisphere (latitude >35) and one for the Southern hemisphere (latitude <= 35).
-We used a set 20000 non-redundant georeferenced soil measurements, and interpolations,  for Olsen and  25000 profiles for Bray as compiled by \citep{mcdowell2023}. Then we added 15000 profiles fro Olsen phosphorus and 5000 for Bray phosphorus for Mexico \citep{paz-pellat2018}.
-Then we retrieved maps for 15 predictors of available phosphorus as described by \citep{hexianjin2022}.The predictors were as follows: Mean Annual Temperature and Mean Annual Precipitation from BioClim 2.0 \citep{fick2017}; pH, soil organic carbon, bulk density, WRB soil groups and  USDA taxonomy big groups from SoilGrids 250 \citep{hengl2019,hengl2017,wrb2022,scheffe2015}, biomes fom resolve Ecoregions \citep{dinerstein2017}, Mean Annual Net Primary Production from MODIS \citep{running2015a}, slope and elevation from EarthEnv \citep{amatulli2018}, soil depth  from Land-Atmosphere Interaction Research Group \citep{shangguan2017}, and lithology from GLiM \citep{hartmann2012}(details on Suplementary file S1).
-The different map files we curated and matched in resolution and projection, so that at the end we have 15 10km (0.8883 x0.9993 decimal degrees) latitude longitude WGS84 rasters. To not give  overwhelming regression leverage to datapoints in long tails of skewed distributions, the predictors with heavily skewed distributions to the right were transformed  with log2, as were the two outcome variables, and then back transformed following \citep{mcdowell2023}.
-We prefered to use this limited amount of covariates as their prediction value, computation time savings, and interpretability have been shown by \citep{hexianjin2022}. 
-Then we filled the gaps in the predictor variables for the \cite{mcdowell2023} Samples by using the highest resolution raster possible (details on Suplementary file S1).
-After this we aimed for building two independendent models for the northern and southern datasets. We used the R package Random Forest \citep{liaw2002}with default hyperparameters, but including subsampling strata  for each of the Geo3 Major regions and getting an ensemble model out of 15 rounds of replication, with 4 fold cross validation (70\% training data, 30\% testing data). 
-The two ensemble models were then used to make global predictions at 10 km resolution on their own domains (North vs South) and merged in a single raster.
-Given the local lack of sampling in Africa and Latin America, we checked the correlation of our Olsen and Bray Models with other proxies of available phosphorus in those regions, which are expected to correlate given their similar chemistry. The correlation of  our model predictions were checked with 1) In the case of Africa a model of water soluble phosphorus measured by mass spectrometry, isDASOIL \citep{miller2021b,hengl2017a} and available phosphorus for Brazil \citep{Samuel-RosaEtAl2018a} and Argentina \citep{cordoba2021}. 
+To find associations between plant-available soil phosphorus and the genetic diversity of maize traditional varieties, I started by compiling public datasets on global phosphorus distribution. Because of it's high resolution and interepretability I intended to use the Olsen \citep{olsen1954} phosphorus predictions by \citep{mcdowell2023}, however this model shows no predictive value (Pearson correlation $r=0.076$) for the 500 samples coming from Latin America and the Caribbean present in that data set.
 
-To measure linear correlations between distinct previously reported phosphorus parameters and our model predictions, we transformed  each parameter according to their distributiion (Supplementary table 2)  and  added logit transformed probabilities of  soil phosphorus retention class from \citep{batjes2011}.
+In addition to \citep{mcdowell2023}, I searched for other datasets and parameters that could be correlated to experimental measures of plant-available phosphorus in soils.
+These included total phosphorus from \citep{hexianjin2022}, labile and total phosphorus from \citep{yang2013}, phosphorus by Bray, Olsen and Mehlich \citep{mehlich1984} methods, New Zealand phosphorus retention from \citep{shangguan2014} and NP limitation from \citep{du2020}.
+However, I found no useful correlation (Pearson $r < 0.1$) between the \citep{mcdowell2023} experimental Olsen and Bray data and any of the reported predictions for those geolocalized soil profiles.
 
-Because of the crops used in this study we were interested in confirming that our plant samples were collected from soils that had reasonable predictor space overlap with the training data. For this we used a Factor Analysis dimensionality reduction approach, and did a MANOVA test for differences between the crop groups and the South Data set on this projection of the covariate space.
+As the global databases had a very low predictive value for plant available soil phosphorus in Latin America, I narrowed the scope and focused to the Mexican territory and used the published data from the Instituto Nacional de Estadística y Geografía \citep{paz-pellat2018} from georeferenced soil profiles collected between 1969 to 2006.
+This set contained topsoil phosphorus measurements as extractable phosphorus concentration in ppm [mg/kg] for 13092 gelolocalized soil profiles, divided into 8325 datapoints for  Olsen phosphorus (soils $\text{pH} > 7$) and 4767 datapoints for Bray phosphorus  (soils with $\text{pH} \leq 7$) for Mexico. 
 
-\subsection*{inv4m plant population, growth conditions,experimental design and phenotype measurements}
+For investigating the phosphorus distribution among different soil types according to WRB taxonomy \citep{wrb2014},  I used the field determinations of WRB soil group for the INEGI Serie II data \citep{inegi2013} and corresponding interpretation \citep{inegi2011,inegi2009} that matched both in  geolocation to (within a 150m) and profile identifier. 
 
-\subsection*{RNAseq tissue sampling, RNA extraction and Sequencing}
+Then I followed the random forest based methodology for soil predictive mapping developed by \citep{hexianjin2022} for its demonstrated prediction value for total phosophorus, interpretability, and computational time savings in comparison with the more onerous 150 input variable models of \citep{hengl2019} or \citep{mcdowell2023}. 
+Here I used the maps for 16 predictors of available phosphorus and improving data clean up and resolution where possible.
+The predictors were as follows: Mean Annual Temperature and Mean Annual Precipitation from BioClim 2.0 at 10 km resultion \citep{fick2017}; WRB soil groups at 10 km and pH, soil organic carbon, bulk density at 250 m resolution, from SoilGrids 250 \citep{hengl2019,hengl2017,wrb2022,scheffe2015}, USDA taxonomy order from OpenLandMap at 250 m, biomes fom Resolve Ecoregions \citep{dinerstein2017} at 10 km, Mean Annual Net Primary Production from MODIS \citep{running2015a}, elevation 15 m from INEGI CEM 3.0 \citep{inegi2019}, slope 1 km from EarthEnv \citep{amatulli2018}, soil depth at 10 km from Land-Atmosphere Interaction Research Group \citep{shangguan2017}, and lithology from GLiM rasterized at 10 km resolution\citep{hartmann2012}(details on Suplementary file S1).
+All coordinates were matched to WGS84 latitude longitude for extraction of values from each raster using the custom R scripts.
+I used this dataset for point predictions and so I refer to this data set as the POINTDATA.
 
-\subsection*{Differential Expression Analysis}
+I ran 15 simple random forest model with these 16 predictors and a single response variable using the R library `randomForest` \citep{liaw2002}. 
+Either I used as output variable just the Bray measurements, the Olsen measurements, or a synthetic variable I called PHOS that consisted in the union of those two sets of observations, i.e. the PHOS parameter is a measure of phosphorus availability in the soil that corresponds to Bray I extractable phosphorus if the soil $\text{pH} \leq 7$ and to the Olsen extractable phosphorus if the soil $\text{pH} > 7$. 
+I followed the code used by \citep{hexianjin2022}  with 3 random variables selected at each decision node, 500 trees per model, $70\%$ training, $30\%$ testing data a 5 fold cross validation at each step.
+The predictive value of the model is measured as the Pearson correlation between the observed experimental values of available phosphorus concentration and the prediction from the random forest in the test data. 
+The cross validation was used to measure the contribution of each predictor to the model by removing it from the model and measuring the resulting change in mean standard error of the prediction as a percentage. 
+Additionally I ran an ensemble model based on the 15 outputs of the simple random forest model to see if it would increase predictive values in the test data.
+Although I increased the correlation between observations an predictions using the ensemble model, I did not observed a improvement in the test predictions worthy both the more complicated model.
 
-\subsection*{Gene Regulatory Network Analysis}
+The POINTDATA needed additional matching in resolution and projection for making a raster prediction at 10 km resolution. So in  I used  \href{https://github.com/sawers-rellan-labs/grassGEA}{a series of custom $`R`$ language scripts} based on the `raster`, `gdal`, `sp` and `stars` libraries for obtaining 15 10km ($0.8883 \times 0.9993$ decimal degrees) latitude longitude WGS84 rasters. This dataset will be referred as MAPDATA.
 
-\subsection*{Lipid Analysis}
+\subsection*{Gene Environment Association}
 
 \section{Results}
-\subsection{Enhanced Global Model of Olsen and Bray Phosphorus improve accuracy for the Southern Hemisphere}
-After building on the work of \cite{hexianjin2022} and \cite{mcdowell2023}, we increased the predictive value of the soil mapping models for Olsen and Bray extractable phosphorus in the Southern hemisphere. Our two hemisphere model increased the Pearson correlation $r$ from 0.0 to 0.7 (0 and 0.5 $R^2$) for observed and predicted values of Olsen P, and  from 0.0 to 0.84 (0 to 0.7 $R^2$) for observed and predicted values of Bray P (Observed-Predicted correlations table 1) in the Southern data.  [Compare mean squared root error]. In addition to this we see good overlap with the training data set for both Africa and LAC (Figure 1C) (MANOVA test), which allows us to make reasonable interpolations. A similar approach increased the total phosphorus predictive value as well from 0.81 to 0.91 (0.65 and 0.81 $R^2$), marginally improving previously reported data for Africa \citep{hengl2017a}, where we expect even less over-fit because of the better sampling and increased mixing of data points in the predictor space.
 
-Appart from the predictive value,  the relative importance of  predictors in our models is congruent with the chemical understanding of how phosphorus goes into soil solution.
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.9\linewidth]{Chapter-2/figs/WRB_inegi2013map.png}
+\caption[WRB Soil Group Classification for Mexican soils according to INEGII]{\textit{\textbf{WRB Soil Group Classification for Mexican soils according to INEGI.}} \\\hspace{\textwidth}
+\textbf{(A)} Reference soil profiles (n=4000) \citep{inegi2013}.
+\textbf{(B)} 1:250000 map prediction for the dominant WRB soil group \citep{inegi2015} \textbf{(C)} Andosols predominate in the Transmexican Volcanic Belt at high altitudes and are frequent in the Sierra Nevada de Chiapas y Guatemala, collection areas for the Andosol Introgression Resource population (chapter 4)}
+\label{fig::WRB_inegi2013map}
+\end{figure}
+\clearpage
+
+
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/WRB_inegi_soilgrids}
+\caption[Comparison between INEGI and SoilGrids WRB soil Classification Maps]{\textit{\textbf{Comparison between INEGI and SoilGrids WRB soil Classification maps.}} \\\hspace{\textwidth}
+\textbf{(A)} INEGI 1:250000 map dominant soil prediction sorted by AUROC, total count above the bar. From Histosols to the right misclassifications are more common than correct classifications. For Lixisisols, Cambisols, Acrisols and Plinthosols the most frequent prediction does not match the observed soil group.
+\textbf{(B)}  INEGI 1:250000 map dominant soil prediction in absolute frequency scale (count), same as the number of top of A bars.
+\textbf{(C)} Soilgrids 10 km WRB dominant soil prediction. Downscaled resolution from 250 m.
+\textbf{(D)} Soilgrids 250 WRB dominant soil prediction, it  has more missing data and underpredicts Andosols}
+\label{fig::WRB_inegi2013map}
+\end{figure}
+\clearpage
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.65\paperwidth]{Chapter-2/figs/obeserved_PHOS.png}
+\caption[Experimental values for topsoil plant available phosphorus (PHOS) in Mexico]{\textit{\textbf{Experimental values for topsoil plant available phosphorus (PHOS) in Mexico.}} \\\hspace{\textwidth} 
+\textbf{(A)} Geographical distribution of sampled soil profiles. For acid and neutral soils ($\text{pH} \leq 7$) the reported PHOS value corresponds to Bray I phosphorus. For basic soils, Olsen phosphorus is reported as PHOS \citep{paz-pellat2018}.
+\textbf{(B)} Available phosphorus per WRB soil group determination method, \textit{left:} observed WRB determination in the field for INEGI reference profiles, \textit{right:} assignation of dominant soil in the corresponding map unit (polygon) in \citep{inegi2013}. Downward triangle points to Andosol group soils}
+\label{fig::WRB_inegi2013map}
+\end{figure}
+\clearpage
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.65\paperwidth]{Chapter-2/figs/PHOS_correlation.png}
+\caption[Pearson correlations (r) between experimental soil available phosphorus in Mexico (PHOS) and predicted phosphorus parameters from global models]{\textit{\textbf{Pearson correlations (r) between experimental soil available phosphorus in Mexico (PHOS) and predicted phosphorus parameters from global models.}} Observed values for lon : longitude, lat: latitude, ele: elevation in \citep{inegi2013}, and clay: clay content, pH, and PHOS: plant available phosphorus in \citep{inegi2013}. Predicted probabilities for Lo: Low, Mo: Moderate, Hi: High, and VH: very high phosphorus retention potential soil classes according to \citep{batjes2011}; predicted
+stp10: total phosphorus from \citep{hexianjin2022}, lab: labile and tot: total phosphorus from \citep{yang2013}, phosphorus by Bray, Olsen and Mehlich \citep{mehlich1984} methods and New Zealand phosphorus retention  from \citep{shangguan2014}; and predicted NPlim: Nitrogen Phosphorus limitation from \citep{du2020}. } 
+\label{fig::phoscorrelation}
+\end{figure}
+\clearpage
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/marginal_dependencies.png}
+\caption[Marginal Dependencies pof PHOS. pH and elevation of WRB soil groups]{\textit{\textbf{Marginal Dependencies pof PHOS, pH and elevation of WRB soil groups.}}}
+% \\\hspace{\textwidth} 
+\textbf{(A)} 
+\textbf{(B)}
+\textbf{(C)}
+\label{fig::\textbf{(B)}}
+\end{figure}
+\clearpage
+
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/rf_validation.png}
+\caption[Random forest model validation for soil  available phosphorus PHOS in Mexico]{\textit{\textbf{Random forest model validation for soil  available phosphorus PHOS in Mexico.}} \\\hspace{\textwidth} 
+\textbf{(A)} Correlation between observed and predicted available phosphorus in linear (top) and logarithmic (bottom) scales.
+The model is over fitted as it has far better predictive value over training $r=0.8$ rather than testing $r=0.4$ data.
+\textbf{(B)} Predictor contribution calculated as mean square error difference (\%) after removing it from the model.}
+\label{fig::rfvalidation}
+\end{figure}
+\clearpage
+
+
+
+\subsection{Random Forest Model of Olsen and Bray Phosphorus Improves Accuracy of Soil Available Phosphorus Estimation in  Mexico}
+After building on the work of \cite{hexianjin2022} and \cite{mcdowell2023}, we increased the predictive value of the soil mapping models for Olsen and Bray extractable phosphorus in the Southern hemisphere. I decided to follow the  Our two hemisphere model increased the Pearson correlation $r$ from 0.0 to 0.7 (0 and 0.5 $R^2$) for observed and predicted values of Olsen P, and  from 0.0 to 0.84 (0 to 0.7 $R^2$) for observed and predicted values of Bray P (Observed-Predicted correlations table 1) in the Southern data.  [Compare mean squared root error]. In addition to this we see good overlap with the training data set for both Africa and LAC (Figure 1C) (MANOVA test), which allows us to make reasonable interpolations. A similar approach increased the total phosphorus predictive value as well from 0.81 to 0.91 (0.65 and 0.81 $R^2$), marginally improving previously reported data for Africa \citep{hengl2017a}, where we expect even less over-fit because of the better sampling and increased mixing of data points in the predictor space.
+
+
+Appart from the predictive value,  the relative importance of predictors in our models is congruent with the chemical understanding of how phosphorus goes into soil solution.
 Phosphorus in solution depends on pH and soil mineralogy, while the total amount of phosphorus in non fertilized soils should depend mostly on parent material and organic mater fractions.
 Thus the random forest predictor importance as measured by \%IncMSE in our small model is easier to understand than models including multiple multispectral vegetation indices and climate variables \citep{mcdowell2023}.
 
@@ -53,54 +142,45 @@ At the level of continental and global models our Bray and Olsen predictions hav
 Although not comparable with prediction values for mean annual temperature,$R^2$ = 0.98 \citep{fick2017}), our model improves prediction for Latin America \cite{mcdowell2023} and a previous model of Africa \citep{hengl2017a} of plant available phosphorus.
 Now with the best estimators we had of plant available phosphorus for plants in acicidic and basic soils we proceeded to look for Genome Environment Associations in two crops: Maize heirloom varieties in Mesoamerica and And Sorghum heirlooms in Africa.
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/predicted_PHOS.png}
+\caption[Predicted Available Phosphorus for Mexican Traditional Maize Varieties]{\textit{\textbf{Predicted Available Phosphorus for Mexican Traditional Maize Varieties.}}
+\\\hspace{\textwidth}
+\textbf{(A)} Geographical distribution for 2350 traditional varieties from the FOAM panel \citep{romero_navarro2017-cn}
+\textbf{(B)} Comparison of topsoil phosphorus in 12300 soil samples \citep{paz-pellat2018} with the predictions for the FOAM panel}
+\label{fig::pointpred}
+\end{figure}
+\clearpage
 
-\subsection{Maize Vegetative and Reproductive Traits have a marked response to Phosphorus but no detectable difference between Inv4m alleles(karyotypes) nor  Inversion x Phosphorus interaction}
+\subsection{Genome Environment Associations Point to Candidate Genes for Adaptation to Divesre Soil Phosphorus Availability Conditions}
 
-We see a clear shoot phenotypic response to phosphorus treatment independently of Inv4m karyotype. 
-Plants grown in low phosphorus grow slower and reach maturity later with a similar effect in both Inv4m and B73 homokaryotpes. 
-The effect of phosphorus treatment is significant for all the vegetative growth measurements taken, plant height at anthesis, dry mass at 40, 50, 60 and 120 DAP.  
-For reproductive traits low phosphorus leads to earlier time to male and female flowering, greater cob width and length, and a reduced yield as measured by total kernel weight per ear.
-A closer analysis of the growth curves inferred from accumulated dry mass at different days show increased final dry mass  with increased phosphorus, a faster mass acquisition rate, and faster time to mid mass in higher phosphorus. 
-There is slight evidence for an interaction between inv4m karyotype and growth. 
+\begin{figure}[b]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/PHOS_mlm.png}
+\caption[]{}
+\label{fig:PHOS_mlm}
+\end{figure}
+\clearpage
 
-The standard homokaryotype (B73), seems to be more responsive to increased concentration of phosphorus in the soil. In contrast, the  inverted homokaryotype [inv4m] seems to not to lose as much dry weight in the low phosphorus treatment compared with high P input [make pairwise bootstrap test for the diference of means]. 
-This behavior matches the expectation of B73 being selected for yield under high input agriculture in contrast with the Mexican Highland landraces that are selected for more predictable yields under variable stresses. In a phenotype PCA of the different mean row measurements the first dimension explaning 28\% of the variance with morphological phenotypes has weights associated with flowering time and dry mass accumulation, highlighting these variables as the most responsive to the phosphorus treatment (PCA biplot). 
-The samples in this pheotypic ispace show a clear separation by treatment  but not  inv4m karyotypes ( 2 x MANOVA 2 groups) or their interaction (MANOVA 4 groups).
+\addtocounter{figure}{-1}
+\begin{figure} [t!]
+\caption[Linear Mixed Model Association between Maize Genetic Variants and Soil Available Phosphorus in Mexican Traditional Varieties]{\textit{\textbf{Linear Mixed Model Association between Maize Genetic Variants and Soil Available Phosphorus in Mexican Traditional Varieties.}}
+\\\hspace{\textwidth}
+\textbf{(A)}  \textbf{(B)}  \textbf{(C)} \textbf{(D)} \textbf{(E)}\textbf{(F)} \textbf{(G)} \textbf{(H)} 
+ }
+\end{figure}
 
-\subsection{Maize leaf expression shows a marked response to Phosphorus and Inv4m polymorphism, with some genes responding to Inversion x Phosphorus interaction}
-
-At v8-9 maize plants showed a remarkable response to phosphorus in their leaf gene expression.
-An multidimensional scaling of the gene expression shows an overall response to phosphorus that tends to increase with leaf-age and is associated with  the first dimension (Figure). 
-While the second dimension shows more separation between samples due to leaf age.
-
-After a mashr analysis for the effects of phosphorus treatment in gene expression we see that mir399 is consistently over-expressed from the most apical to the most basal of the sampled leaves.
-Gene expression on target genes like SPX transporters were also consistently diminished in high phosphorus, corresponding to the overall expected response to phosphorus (mir2020).
-
-There is a genome-wise effect of the phosphorus treatment on gene expression, as shown by the mashr p-values {expression manhattan plots}. We found a total of 10000 differential expressed genes (out of 20000 genes detected in at least one leaf sample), with a distrubution mostly consistent with gene density throughout the genome. 
-In contrast, the effect of inv4m is mostly detected inside the boundaries of inv4m [I need to genotype the samples  show the actual boundaries  in these plants] with a  transcription factor being the most significantly affected gene in the group (cite fold change gene id predicted function).
-We detected 300 genes that undergo inv4m effect in cis, while 300 genes show significant diferential gene expression in trans between inv4m karyotypes.
-The mean magnitude of the effect in cis is greater than the mean effect in trans (mean fold value of the two grops, t-tes p value (sperate hypothesis for over and under expressed genes?)).
-
-However the variation at inv4m seems to have no major effect in the gene response to phosphorus.
-As shown by the mashr test for the Inversion x Phosphorus interaction there are 150 genes that have a differential response to phosphorus depending on the inv4m karyotype, with (20) genes in cis and (x) genes in trans.
-A single gene close to inv4m shows a different response  to phosphorus (look for the id, check if it is in the inv4m) depending on inv4m genotype (show interaction plot).
-
-Gone ontology and pathway analysis. 
-We observe clear over representation of nitrogen associated biological processes and metabolic pathways in  the 10000 genes responsive to phosphorus treatment.
-However when we reduce he list to the top 1000 most significant, the over represented gene processes and terms are more related to phosphorus (adjusted FDR < 1e-6). 
-Meaning that the genes that show the greater and/or more consistent effect  have phosphorus associated funcions while nitrogen related genes are making significant but smaller adjustments in expression (t test for difference in effects between phosphorus genes and nitrogen genes), maybe reflecting cross-talk between phosphorus and nitrogen homeostasis (i.e nutrient interaction) \citep{torres-rodriguez2021} [look for NxP imporrtant genes in vlad lists and other papers]. [I could mention the NEU results too]
-[Make lists for over and under represented genes, maybe Miami plots?, a heatmap and hierarchical clustering of genes exprerssion profiles from leaf 1 to 4 might be nice use cheng li package to get a quick idea]
-
-Genes that are deferentially expressed  due to Inv4m effect do not show over representation of either biological processes or pathways, not even when separated in induced vs repressed genes.
-And, similarly, genes that show inv4m X phosphorus interaction in gene expression lack any specific functions statisttically associated either in Gene Ontology or Metabolic pathway database.
-
-Overall there is no hard evidence from this transcriptome experiment that inv4m contributes to local adaptation to phosphorus, in the sense that it's adaptive contribution does not depend on phosphorus amount in the the soil.
-However it is clear that inv4m plants reach faster time to maturity, and have less yield penalty under extreme phosphorus stress.
-We could not find signals of photosynthesis or carbohydrate over representation in the Inv4m responsive to inversion karyotype, as was previously foundd in respons to cold \citep{crow2020}
-
-
-\subsection{Phosphorus response of the leaf gene regulatory network to inv4m introgrression}
-\section{Discussion}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{Chapter-2/figs/PHOS_Fst.png}
+\caption[Fst based Association between Maize Genetic Variants and Soil Available Phosphorus in Mexican Traditional Varieties]{\textit{\textbf{ $\boldmath{F_{st}}$ based Association between Maize Genetic Variants and Soil Available Phosphorus in Mexican Traditional Varieties.}}
+\\\hspace{\textwidth} 
+\textbf{(A)}  \textbf{(B)}  \textbf{(C)} \textbf{(D)} \textbf{(E)}\textbf{(F)} \textbf{(G)} \textbf{(H)} 
+ }
+\label{fig::PHOS_Fst}
+\end{figure}
+\clearpage
 
 
 \printbibliography[heading=subbibintoc, title=References]
