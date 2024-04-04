@@ -1,15 +1,39 @@
 %% ------------------------------ Abstract ---------------------------------- %%
 \begin{abstract}
 
-Maize had no major artificial phosphorus input during its evolution in domestication and breeding until modern industrial agriculture.
-Currently yield  relies on a steady but limited supply of mined phosphate fertilizer.
-Even so,  traditional farmers in Mexico still successfully grow varieties with no addition of industrial fertilizer. Understanding the nature of the genetic variation underlying this adaptation can contribute to the production of phosphorus efficient crops that could lower costs and water pollution from leached fertilizers.
-In this study I establish genome environment associations (GEA) between soil phosphorus availability, from interpolated soil profile maps, and the genetic diversity of a collection of ~2000 open-pollinated varieties in Mexico. Here I find evidence of association between a chromosomal inversion, inv4m, and multiple soil phosphorus parameters, specially, water soluble phosphorus and phosphorus retention.
-Although this inversion is presumed to be adaptive to high elevation in Mexico no current measurements of fitness exists where inv4m has been experimentally isolated from background genetic variation. To test whether inv4m is adaptive, I used a segregating HIF population for inv4m, derived from a cross of the temperate inbred B73 and  the Mexican Andosol variety MICH21, grown in the field under high and low phosphorus treatments.
-In addition to this I built both an expression and a phospholipid profile from a developmental series of leaves. Complementing the GEA approach I made a QTL search for seed phosphorus content using ionomics. or this I used 8 families of BC2S3 RILs, derived from parents traditionally cultivated in Mexican Andosols and the tropical line CML530.
-Results show that inv4m accelerates flowering independent of phosphorus treatments at our test field in Pennsylvania. This the first direct experimental evidence of the adaptive contribution of  inv4m, however the adaptation is rather global  in character, with respect to soil phosphorus availability.
-As inv4m does not show the pattern of Gene X Environment interaction expected in the case of local adaptation. Currently I am doing the gene expression analysis o test the efect of inv4m on gene expression pre-reproductive leaves. In our multiparental population I was able to detect 2 QTLs for seed phosphorus content in chromosomes 7 and 8, furthter analyses are required to characterize possible candidates. 
-\end{abstract}
+In \autoref{chap-one} I use genome scans in traditional varieties, and QTL linkage mapping in a biparental population to explore the role of phospholipid metabolism in maize adaptation to highlands. 
+Comparing highland and lowland maize populations I found evidence of selection in leaf phosphatidylcholine (PC) and lysophosphatidylcholine (LPC) composition; and in the sequence of genes coding for phospholipid metabolism enzymes. 
+Using Recombinant Inbred Lines (RILs), I mapped an increased PC content, and PC/LPC ratio to the \hpc (\textit{High Phosphatidylcholine 1}) locus.
+ \hpc is a predicted phosphoplipase A with orthologs that catalyze the degradation of PCs into LPCs. 
+Consistent with a role in PC degradation
+\hpc CRISPR-Cas9 mutants accumulated PCs like the plants carrying the highland allele.
+Furthermore, the highland allele in \hpc was introgressed from highland teosinte \textit{Zea mays spp. mexicana} and is associated with earlier flowering in Mexican traditional varieties and temperate inbreds.
+The marked gene-by-environment, $ G\times E $, interaction shown by \hpc points to its role in local adaptation to highlands, where the highland allele speeds up flowering while delaying it in the lowlands.
+Further biochemical characterization suggests a mechanism by which the highland \hpc variant interferes with the flowering signaling pathway, by shifting the composition of leaf lipids binding to the \textit{FT} ortholog in maize \textit{ZCN8}.
+
+Similar to \hpc, the chromosomal inversion \invfour also shows a $G \times E$ interaction effect on flowering time congruent with local adaptation to highlands, where it has been introgressed into cultivated maize from teosinte \mex too.
+
+In \autoref{chap-three} I tested whether \invfour-highland contributes to local adaptation through an enhanced phosphorus starvation response (PSR). 
+First, we bred Near Isogenic Lines (NILs) in B73 containing \invfour-highland introgressed from Mi21, a traditional Mexican maize variety, isolating the effect of \invfour-highland in a single genetic background.
+Then we grew the \invfour-highland and control lines in the field under phosphorus sufficiency and deficiency. 
+We measured flowering time, plant morphology, and leaf gene expression with RNA-seq. We found that independent of soil phosphorus status, \invfour-highland NILs flowered faster and grew taller than the controls while maintaining grain yield. 
+There was a genomewide transcriptomic response to available phosphorus, affecting 7373 differentially expressed genes (DEGs), with the largest effect shown by the PSR regulator \textit{PILNCR1-miR399} . 
+The effect of \invfour-highland is narrower, affecting 528 DEGs, mainly within the boundaries of the inversion.
+The \invfour perturbation of PSR is limited to the putative aldehyde dehydrogenase \textit{aldh2}. 
+Our results confirm the contribution of \invfour to faster flowering, but we don’t find evidence of its effect on PSR.
+
+Because of their volcanic composition, andosols have high phosphorus content, but most of it is retained by vitreous minerals and is not available for plants.
+Acrisols, with a sedimentary composition, have a high clay content and show low phosphorus availability as well. 
+
+In \autoref{chap-four}, I search for genetic determinants of kernel mineral accumulation in a population derived from plants bred in these two different phosphorus-limited soils. 
+First, we generated BC$_2$S$_3$ maize RILs of Mexican andosol donors backcrossed into CML530, a tropical inbred selected in Colombian acrisol.
+From these, I obtained kernel concentrations for 14 minerals from plants grown under phosphorus sufficiency.
+Here I detected 12 quantitative trait loci for 7 minerals, explaining between 1.8 to 17\% of the observed variance.
+Two overlapping QTL peak intervals, for phosphorus and manganese, include \textit{Zm00001eb076150} a maize homolog of \textit{WAT1}, an auxin transporter in \textit{Arabidopsis}.
+In low phosphorus conditions \textit{Zm00001eb076150}, has been previously associated with leaf number in maize and shoot dry weight in wheat. Linkage to this auxin transporter suggests a role for it in differential kernel phosphorus accumulation.
+
+\end{abstract} 
+
 
 
 %% ---------------------------- Copyright page ------------------------------ %%
@@ -20,23 +44,87 @@ As inv4m does not show the pattern of Gene X Environment interaction expected in
 \maketitlepage
 
 %% -------------------------------- Dedication ------------------------------ %%
-%\begin{dedication}
-% \centering To my parents.
-%\end{dedication}
+\begin{dedication}
+ \centering To my parents.
+\end{dedication}
 
 %% -------------------------------- Biography ------------------------------- %%
-% \begin{biography}
+\begin{biography}
 % The author was born in a small town \ldots
-% \end{biography}
+Born in Bogotá, Colombia in 1981 to Luz María Zapata Gamba and Lino Rodríguez.
+Thanks to the courage of my mother and the support of all my family, I was able to secure scholarships ever since my high school education at Instituto Alberto Merani (1997, funded by B'nai Brith support). 
+Later I graduated with a Bachelor of Science degree in Biology at Universidad de Los Andes, Colombia (2005, Neme Foundation and 50 years Fund Scholarships).
+I started my work in plant genetics, genomics, and bioinformatics in QTL mapping of fungal disease resistance genes in common bean at CIAT (International Center for Tropical Agriculture, Cali) where I completed my thesis project under the direction of Dr. Joe Tohme.
+This way I managed to be the first university graduate in my family.
+I stayed at CIAT as a research assistant until 2012 where I published collaborations on the cassava genome, abiotic stress gene expression, and microRNA annotation.
+In 2016 I completed my Ms. Sc. Degree in Biological Sciences at Universidad de Los Andes, Colombia (with a Graduate Studies Scholarship for Academic Excellence) under the direction of Dr. Santiago Madriñán Restrepo, where I studied the possibility of using nuclear DNA content quantification and leaf morphology to trace evidence of interspecies hybridization in the coca plant (\textit{Erythroxylum sp.}).
+In 2019 I started my doctoral work in the "Genetics, Evolution and Metabolism of Maize Adaptation Lab" under Dr. Rubén Rellán Álvarez supervision at the North Carolina State University. 
+Here I conducted my research on the genetics of maize adaptation to the Mexican Highlands thanks to the auspicious funding of the State of North Carolina (from the NCSU Graduate Student Support Plan, GSSP) and the Federal Government of the United States (from the NSF Science and Technologies for Phosphorus Sustainability, as a STEPS Scholar).
+\end{biography}
 
 %% ----------------------------- Acknowledgements --------------------------- %%
-%\begin{acknowledgements}
-%Thanks to family, advisor, committee, office friends, etc. ...
-%\end{acknowledgements}
+\begin{acknowledgements}
+Thanks to the native peoples and farmers that domesticated, cultivated and bred maize. 
+To all the maize genetics community and the people whose work made mine possible. 
+
+Thanks to the support of my family: 
+my mother Luz María Zapata Gamba, my father Lino Rodríguez, my sisters Andrea del Pilar and Ana Bolena, and my nieces Lina Fernanda and Luciana.
+The main reason that I could ever achieve the dream of being a scientist.
+
+Thanks to Dr. Rubén Rellán Álvarez, for his endless support, advice, and invaluable friendship.
+An extraordinarily dedicated scientist and the most generous person I know.
+
+Thanks to Dr. Allison Barnes, for her friendship, her openness, and all her determination required to get stuff-done and running the lab smoothly.
+
+Thanks to the other members of my committee for their feedback and patience,  and for believing in me even when I did not. 
+To Dr. Jim Holland for his constructive criticism and keen comments, for all the population genetics he taught me, and for having the good judgment of a breeder. 
+To Dr. Jung-Ying Tzeng for improving my understanding of the statistical genetics of complex traits and for inspiring me with her love for mathematics.
+To Dr. Rafael Guerrero for his clarity of mind and practicality.
+
+To the Genetics Department and the NCSU Graduate Support Program.
+Special thanks to Dr. Reade Roberts,  Dr. Tyler DeAtley and Jenni Wilson.
+
+To the lab mates that started with me at \href{https://www.gemmalab.org/people.html}{GEMMALAB}, Destiny Tyson, her dedication and hard work is an inspiration. 
+To Andi Kur, for illustrating our science with her beautiful art.
+
+To Nirwan Tandukar a serendipitous source of inspiration and camaraderie.
+To Ruthie Stokes, for her admirable skills at the mass spectrometer.
+To Hannah Pil for her impressive dedication and commitment to the work at the lab, and for her good humor.
+To the older and newer generations of GEMMALAB students and techs. To Christina Merkel, Pascual Blanco, Emily Phung, Lina López.
+
+To  Dr. Josh Strable and Dr. Alex Aragón for the discussions.
+
+To all the people at the NCSU Biochemistry Department especially to Dr. Melanie Simpson, Dr. Joe Barycki, Ebony Stancil, Madi Moser. 
+To all the people in  METRIC analytical laboratory. 
+To the GSL core genomics facility personnel, especially to Dr. David Baltzegar,  Mónica Fernández de Soto, and Dina Espinoza Rivera.  
+To the LGC life sciences genotyping personnel and support.
+
+To all the personnel at the Central Crops Research Station, Clayton North Carolina, and at the Russell E. Larson Agricultural Research Center, Rock Springs, PA.
+To all the personnel at the Puerto Vallarta winter nursery, in particular to the Wixárika workers.
+
+To the Science and Technologies for Phosphorus Sustainability (STEPS) Center at NCSU, for giving me the opportunity to be a STEPS scholar.
+Especially to  Dr. Jacob Jones, Dr. Ross Sozzani and Dr. Maude Cuchiara.
+
+Thanks to Dr. Ruaridh Sawers, for giving me a chance back in México, and for continuing to be a mentor and a collaborator.
+
+To Karla Blöcher Suarez, Sergio Perez Limón, Dr. Vladimir Torres, Juan Estévez, Jessica Carcano, and all the people in LANGEBIO 2018-2019, and thanks to funding from CONACYT.
+
+Thanks To Dr. Jeff Ross Ibarra, and Dr. Daniel Runcie, for allowing me to visit UC Davis to complete the RNA-seq analysis of the \invfour phosphorus experiment.
+Thanks to the HiLo project and the NSF funding.
+
+Thanks to Dr. Zaida Villaraga in Colombia, and Dr. Heather Rogers and all the personnel at the NCSU Counseling Center, for supporting me when I needed the most. 
+Going through the COVID-19 pandemic isolation and completing my degree would have been impossible without them.
+
+Thanks to Hilda María and Aleyda for being like adoptive mothers to me.
+Thanks to my closest friends Santiago, Alejandro, Oliver, and Andrés, and Dungeons and Dragons for keeping us together. 
+
+Thanks to Dr. Catalina Ruíz Domínguez, for the gift of México, and the path that led me here.
+
+\end{acknowledgements}
 
 
 \thesistableofcontents
 
-% \thesislistoftables
+\thesislistoftables
 
 \thesislistoffigures
